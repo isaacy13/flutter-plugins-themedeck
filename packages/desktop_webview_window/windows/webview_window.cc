@@ -13,7 +13,6 @@
 #include "utils.h"
 
 #include "include/desktop_webview_window/desktop_webview_window_plugin.h"
-
 namespace {
 
 TCHAR kWebViewWindowClassName[] = _T("WebviewWindow");
@@ -69,21 +68,18 @@ void WebviewWindow::CreateAndShow(const std::wstring &title, int height, int wid
   if (openMaximized)
     dwStyle |= WS_MAXIMIZE;
 
-  if (useWindowPositionAndSize) {
-    hwnd_ = wil::unique_hwnd(::CreateWindow(
-      kWebViewWindowClassName, title.c_str(),
-      dwStyle,
-      windowPosX, windowPosY,
-      width, height,
-      nullptr, nullptr, GetModuleHandle(nullptr), this));
-  } else {
-    hwnd_ = wil::unique_hwnd(::CreateWindow(
-      kWebViewWindowClassName, title.c_str(),
-      dwStyle,
-      CW_USEDEFAULT, CW_USEDEFAULT,
-      Scale(width, scale_factor), Scale(height, scale_factor),
-      nullptr, nullptr, GetModuleHandle(nullptr), this));
+  flutter::DartProject project(L"data");
+  flutter_controller_ = std::make_unique<flutter::FlutterViewController>((useWindowPositionAndSize) ? width : CW_USEDEFAULT, (useWindowPositionAndSize) ? height : CW_USEDEFAULT, project);
+  flutter::FlutterEngine* engine = flutter_controller_->engine();
+  flutter::FlutterView* view = flutter_controller_->view();
+  
+  if (!engine || !view) {
+    std::cerr << "Failed to setup Flutter engine." << std::endl;
+    return;
   }
+
+  hwnd_ = wil::unique_hwnd(view->GetNativeWindow());
+
   if (!hwnd_) {
     callback(false);
     return;

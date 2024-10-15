@@ -75,6 +75,8 @@ class WebviewWindow {
 
   MethodChannelPtr method_channel_;
 
+  std::unique_ptr<flutter::FlutterViewController> flutter_controller_;
+  
   wil::unique_hwnd hwnd_;
 
   int64_t window_id_;
