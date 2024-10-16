@@ -15,6 +15,7 @@
 #include "include/desktop_webview_window/desktop_webview_window_plugin.h"
 namespace {
 
+WindowCreatedCallback _g_window_created_callback = nullptr;
 TCHAR kWebViewWindowClassName[] = _T("WebviewWindow");
 
 using namespace webview_window;
@@ -76,6 +77,10 @@ void WebviewWindow::CreateAndShow(const std::wstring &title, int height, int wid
   if (!engine || !view) {
     std::cerr << "Failed to setup Flutter engine." << std::endl;
     return;
+  }
+
+  if (_g_window_created_callback) {
+    _g_window_created_callback(flutter_controller_.get());
   }
 
   hwnd_ = wil::unique_hwnd(view->GetNativeWindow());
@@ -164,6 +169,10 @@ void WebviewWindow::getPositionalParameters(std::unique_ptr<flutter::MethodResul
     {"height", rc.bottom-rc.top},
     {"maximized", wp->showCmd==SW_MAXIMIZE}};
   completer->Success(flutter::EncodableValue(m));
+}
+
+void DesktopWebviewWindowSetWindowCreatedCallback(WindowCreatedCallback callback) {
+  _g_window_created_callback = callback;
 }
 
 // static
