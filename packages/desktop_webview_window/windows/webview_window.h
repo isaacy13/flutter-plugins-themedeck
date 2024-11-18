@@ -39,7 +39,7 @@ class WebviewWindow {
   using CreateCallback = std::function<void(bool success)>;
 
   void CreateAndShow(const std::wstring &title, int height, int width,
-                     const std::wstring &userDataFolder,
+                     const std::wstring &userDataFolder, bool showTitleBar,
                      int windowPosX, int windowPosY, bool useWindowPositionAndSize,
                      bool openMaximized, CreateCallback callback);
 

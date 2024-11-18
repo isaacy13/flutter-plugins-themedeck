@@ -11,6 +11,8 @@ class CreateConfiguration {
   /// the title of window
   final String title;
 
+  final bool showTitleBar;
+
   final int titleBarHeight;
 
   final int titleBarTopPadding;
@@ -26,6 +28,7 @@ class CreateConfiguration {
     this.windowPosX = 0,
     this.windowPosY = 0,
     this.title = "",
+    this.showTitleBar = true,
     this.titleBarHeight = 40,
     this.titleBarTopPadding = 0,
     this.userDataFolderWindows = 'webview_window_WebView2',
@@ -45,6 +48,7 @@ class CreateConfiguration {
         "windowPosX": windowPosX,
         "windowPosY": windowPosY,
         "title": title,
+        "showTitleBar": showTitleBar,
         "titleBarHeight": titleBarHeight,
         "titleBarTopPadding": titleBarTopPadding,
         "userDataFolderWindows": userDataFolderWindows,

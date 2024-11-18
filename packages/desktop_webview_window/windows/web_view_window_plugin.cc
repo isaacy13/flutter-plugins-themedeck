@@ -54,6 +54,7 @@ void WebviewWindowPlugin::HandleMethodCall(
     auto width = arguments->at(flutter::EncodableValue("windowWidth")).LongValue();
     auto height = arguments->at(flutter::EncodableValue("windowHeight")).LongValue();
     auto title = std::get<std::string>(arguments->at(flutter::EncodableValue("title")));
+    auto showTitleBar = std::get<bool>(arguments->at(flutter::EncodableValue("showTitleBar")));
     auto titleBarHeight = arguments->at(flutter::EncodableValue("titleBarHeight")).LongValue();
     auto userDataFolder = std::get<std::string>(arguments->at(flutter::EncodableValue("userDataFolderWindows")));
     auto useWindowPositionAndSize = std::get<bool>(arguments->at(flutter::EncodableValue("useWindowPositionAndSize")));

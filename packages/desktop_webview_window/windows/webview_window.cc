@@ -51,7 +51,7 @@ WebviewWindow::~WebviewWindow() {
 }
 
 void WebviewWindow::CreateAndShow(const std::wstring &title, int height, int width,
-                                  const std::wstring &userDataFolder,
+                                  const std::wstring &userDataFolder, bool showTitleBar,
                                   int windowPosX, int windowPosY, bool useWindowPositionAndSize,
                                   bool openMaximized, CreateCallback callback) {
 
@@ -65,9 +65,14 @@ void WebviewWindow::CreateAndShow(const std::wstring &title, int height, int wid
   UINT dpi = FlutterDesktopGetDpiForMonitor(monitor);
   double scale_factor = dpi / 96.0;
 
-  DWORD dwStyle = WS_POPUP | WS_VISIBLE;
+  DWORD dwStyle = WS_VISIBLE;
   if (openMaximized)
     dwStyle |= WS_MAXIMIZE;
+  
+  if (showTitleBar)
+    dwStyle |= WS_OVERLAPPEDWINDOW;
+  else
+    dwStyle |= WS_POPUP;
 
   if (useWindowPositionAndSize) {
     hwnd_ = wil::unique_hwnd(::CreateWindow(
