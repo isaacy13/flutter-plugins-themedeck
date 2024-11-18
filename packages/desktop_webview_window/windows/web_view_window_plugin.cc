@@ -70,7 +70,7 @@ void WebviewWindowPlugin::HandleMethodCall(
         });
     std::shared_ptr<flutter::MethodResult<flutter::EncodableValue>> result2(std::move(result));
     window->CreateAndShow(
-        utf8_to_wide(title), int(height), int(width), utf8_to_wide(userDataFolder),
+        utf8_to_wide(title), int(height), int(width), utf8_to_wide(userDataFolder), showTitleBar,
         int(windowPosX), int(windowPosY), useWindowPositionAndSize, openMaximized,
         [this, window_id, result(result2)](bool succeed) mutable {
           if (!succeed) {
