@@ -196,7 +196,7 @@ extension WebViewLayoutController: WKNavigationDelegate {
       return
     }
 
-    guard ["http", "https", "file"].contains(url.scheme?.lowercased() ?? "") else {
+    guard ["http", "https", "file", "about"].contains(url.scheme?.lowercased() ?? "") else {
       decisionHandler(.cancel)
       return
     }
