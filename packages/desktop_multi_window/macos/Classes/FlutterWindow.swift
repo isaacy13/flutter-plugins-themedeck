@@ -24,6 +24,7 @@ class BaseFlutterWindow: NSObject {
   }
 
   func hide() {
+    window.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(.minimumWindow)))
     window.orderOut(nil)
   }
 
