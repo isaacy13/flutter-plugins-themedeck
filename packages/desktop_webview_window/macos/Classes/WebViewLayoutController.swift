@@ -86,6 +86,11 @@ class WebViewLayoutController: NSViewController {
     webView.navigationDelegate = self
     webView.uiDelegate = self
 
+    webView.configuration.preferences.setValue(true, forKey: "developerExtrasEnabled")
+    if #available(macOS 13.3, *) {
+        webView.isInspectable = true
+    }
+
     // TODO(boyan01) Make it configuable from flutter.
     webView.configuration.preferences.javaEnabled = true
     webView.configuration.preferences.minimumFontSize = 12
@@ -122,7 +127,14 @@ class WebViewLayoutController: NSViewController {
 
   func load(url: URL) {
     debugPrint("load url: \(url)")
-    webView.load(URLRequest(url: url))
+    if url.isFileURL {
+        // For local files, use loadFileURL to allow access to the containing directory
+        let directoryURL = url.deletingLastPathComponent()
+        webView.loadFileURL(url, allowingReadAccessTo: directoryURL)
+    } else {
+        // For remote URLs, use URLRequest
+        webView.load(URLRequest(url: url))
+    }
   }
 
   func addJavascriptInterface(name: String) {
