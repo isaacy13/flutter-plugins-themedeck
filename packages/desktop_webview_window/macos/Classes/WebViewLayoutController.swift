@@ -162,12 +162,6 @@ class WebViewLayoutController: NSViewController {
     webView.stopLoading(self)
     webView.removeFromSuperview()
     titleBarController.engine.shutDownEngine()
-
-    if let window = self.view.window {
-      DispatchQueue.main.async {
-        window.close()
-      }
-    }
   }
 
   func reload() {
