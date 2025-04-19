@@ -86,7 +86,6 @@ class WebViewLayoutController: NSViewController {
     webView.navigationDelegate = self
     webView.uiDelegate = self
 
-    webView.configuration.preferences.setValue(true, forKey: "developerExtrasEnabled")
     if #available(macOS 13.3, *) {
         webView.isInspectable = true
     }
